@@ -26,6 +26,8 @@ paginate: true
 * Cannot be replaced 
 * `new()` as indicator
 
+:point_up: __New is Glue__
+
 ---
 # Interface
 
@@ -46,7 +48,7 @@ paginate: true
 # Freedom is independence
 
 * Reduce (or remove) hard dependencies
-* Use interfaces
+* Use abstractions (e.g. Interfaces, Lambda)
 * Watch your dependencies
 * Define your dependencies
 
