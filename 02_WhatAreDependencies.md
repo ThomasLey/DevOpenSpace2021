@@ -45,7 +45,7 @@ paginate: true
 * Depending from 3rd party
 
 ---
-# Freedom is independence
+# Independence is Freedom
 
 * Reduce (or remove) hard dependencies
 * Use abstractions (e.g. Interfaces, Lambda)
@@ -60,3 +60,10 @@ paginate: true
 * constructor
 * `new()`
 * properties
+
+---
+# [Favour composition over inheritance]
+
+* Legacy Clean Code principle
+* Multi-Inheritance (C++)
+* A class using inheriance to "get functions"
