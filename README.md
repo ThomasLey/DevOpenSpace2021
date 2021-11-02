@@ -12,3 +12,14 @@ Die folgenden Fragen werden uns in dem Workshop beschäftigen:
 * Was sind die Tücken von Dependency Injection?
 
 Am Ende des Tages haben wir einen allround Werkzeugkoffer, mit dem wir für die wichtigsten Aufgaben gewappnet sind.
+
+
+# Presentation
+
+__Prerequisites__
+
+* [marp](https://marpit.marp.app/)
+
+__Build__
+
+     marp --title "DevOpenSpace 2021 [(C) Nov 2021]" --pdf .\0*.md ; marp --title "DevOpenSpace 2021 Agenda" --html .\0*.md
