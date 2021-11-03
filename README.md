@@ -22,4 +22,5 @@ __Prerequisites__
 
 __Build__
 
-     marp --title "DevOpenSpace 2021 [(C) Nov 2021]" --pdf .\0*.md ; marp --title "DevOpenSpace 2021 Agenda" --html .\0*.md
+     marp --title "DevOpenSpace 2021 [(C) Nov 2021]" --pdf .\0*.md
+     marp --title "DevOpenSpace 2021 [(C) Nov 2021]" --html .\0*.md
