@@ -1,4 +1,5 @@
 ﻿using System;
+using DiTryouts.Models;
 using NUnit.Framework;
 using StructureMap;
 

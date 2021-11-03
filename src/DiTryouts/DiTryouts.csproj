@@ -72,21 +72,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBarcodeGenerator.cs" />
-    <Compile Include="IMyLogger.cs" />
-    <Compile Include="IPdfGenerator.cs" />
-    <Compile Include="MyConsoleLogger.cs" />
-    <Compile Include="PdfGenerator.cs" />
-    <Compile Include="QrCoderGenerator.cs" />
+    <Compile Include="Models\IBarcodeGenerator.cs" />
+    <Compile Include="Models\IMyLogger.cs" />
+    <Compile Include="Models\IPdfGenerator.cs" />
+    <Compile Include="LazyFactorySingletonTest.cs" />
+    <Compile Include="Models\MyConsoleLogger.cs" />
+    <Compile Include="Models\PdfGenerator.cs" />
+    <Compile Include="Models\QrCoderGenerator.cs" />
     <Compile Include="SingletonTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StrategyTest.cs" />
-    <Compile Include="ZXingGenerator.cs" />
+    <Compile Include="Models\ZXingGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

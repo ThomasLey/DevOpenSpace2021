@@ -15,10 +15,7 @@ namespace PdfTools
     /*
      * https://www.mclibre.org/descargar/docs/revistas/magpi-books/the-magpi-essentials-scratch-01-en-201606.pdf
      *
-     * 
      */
-
-
     public class Program
     {
         public static void Main(string[] args)

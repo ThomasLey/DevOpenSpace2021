@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DiTryouts.Models;
 using NUnit.Framework;
 using StructureMap;
 
@@ -35,16 +36,6 @@ namespace DiTryouts
 
             var x = c.GetAllInstances<IBarcodeGenerator>();
             x.ToList().ForEach(y => Console.WriteLine($"Done: {y.GetType().Name} => #{y.GetHashCode()}"));
-        }
-    }
-
-    [TestFixture]
-    public class LazyFactorySingletonTests
-    {
-        [Test]
-        public void Register_All_Three()
-        {
-            Assert.Fail("implement me");
         }
     }
 }

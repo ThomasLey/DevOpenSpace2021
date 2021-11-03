@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiTryouts
+namespace DiTryouts.Models
 {
     public class MyConsoleLogger : IMyLogger
     {

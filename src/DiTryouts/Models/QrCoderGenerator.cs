@@ -1,8 +1,8 @@
-﻿namespace DiTryouts
+﻿namespace DiTryouts.Models
 {
-    public class ZXingGenerator : IBarcodeGenerator
+    public class QrCoderGenerator : IBarcodeGenerator
     {
-        public ZXingGenerator(IMyLogger logger)
+        public QrCoderGenerator(IMyLogger logger)
         {
             logger.Log($"(CTOR) {GetType().Name} => #{GetHashCode()} (LOG=#{logger.GetHashCode()})");
         }

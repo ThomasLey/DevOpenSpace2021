@@ -1,4 +1,4 @@
-﻿namespace DiTryouts
+﻿namespace DiTryouts.Models
 {
     public class PdfGenerator : IPdfGenerator
     {
