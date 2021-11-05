@@ -48,6 +48,7 @@ paginate: true
 * How long do you code?
 * Which language (e.g. C#) do you use?
 * What's your main technology (e.g. ASP.NET, WPF, SharePoint)?
+* Experience in Clean Code, Unit Testing & Design Pattern?
 * What do you expect from this workshop?
 
 ---
@@ -81,3 +82,9 @@ paginate: true
 * Build things flexible and clean
 * Focus on the 80%, you can do 20% of your time
 * We don't sell "clean code", we sell a working solution
+
+--- 
+# Projects
+
+* [DevOpenSpace Project](https://github.com/CodeQualityCoach/DevOpenSpace2021)
+* [EUMEL Dj](https://github.com/EUMEL-Suite/EUMEL.Dj)

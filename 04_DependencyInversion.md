@@ -66,6 +66,8 @@ paginate: true
 * DI implementa strategy with registrations
 * Some frameworks support "named registrations"
 
+:bulb: StrategyResolver
+
 ---
 # Instance Creation
 
