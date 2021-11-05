@@ -72,6 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StrategyResolver\GlobalState.cs" />
+    <Compile Include="StrategyResolver\IStrategyResolver.cs" />
     <Compile Include="Models\IBarcodeGenerator.cs" />
     <Compile Include="Models\IMyLogger.cs" />
     <Compile Include="Models\IPdfGenerator.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Models\QrCoderGenerator.cs" />
     <Compile Include="SingletonTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StrategyResolver\StrategyResolver.cs" />
     <Compile Include="StrategyTest.cs" />
     <Compile Include="Models\ZXingGenerator.cs" />
   </ItemGroup>

@@ -4,7 +4,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Windows;
 using FSharp.Markdown;
 using FSharp.Markdown.Pdf;
 using iTextSharp.text.pdf;
@@ -84,7 +83,7 @@ namespace PdfTools
 
         public PdfArchiver(IQrCodeGenerator qrCodeGen = null)
         {
-            _qrCodeGen = qrCodeGen ?? new QrCoderCodeGenerator();
+            _qrCodeGen = qrCodeGen ?? new EmptyQrCodeGenerator();
             _tempFile = Path.GetTempFileName();
         }
 
@@ -101,6 +100,7 @@ namespace PdfTools
             using (Stream inputImageStream = new MemoryStream())
             using (Stream outputPdfStream = new FileStream(_tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
             {
+
                 var code = _qrCodeGen.CreateQrCodeFor(new Uri(url));
                 code.Save(inputImageStream, ImageFormat.Jpeg);
                 inputImageStream.Position = 0;
@@ -115,7 +115,7 @@ namespace PdfTools
                 stamper.Close();
             }
         }
-        
+
         public void SaveAs(string destFile)
         {
             File.Copy(_tempFile, destFile, true);
@@ -128,12 +128,12 @@ namespace PdfTools
         private readonly string _tempFile;
         private readonly IQrCodeGenerator _qrCoderGen;
 
-        public PdfCodeEnhancer(string pdfFile, IQrCodeGenerator qrCodeGen = null)
+        public PdfCodeEnhancer(string pdfFile, IQrCodeGenerator qrCodeGen)
         {
             _pdfFile = pdfFile;
             _tempFile = Path.GetTempFileName();
 
-            _qrCoderGen = qrCodeGen ?? new QrCoderCodeGenerator();
+            _qrCoderGen = qrCodeGen;
         }
 
         public void AddTextAsCode(string text)
@@ -156,7 +156,7 @@ namespace PdfTools
                 stamper.Close();
             }
         }
-        
+
         public void SaveAs(string destFile)
         {
             File.Copy(_tempFile, destFile, true);
@@ -167,6 +167,19 @@ namespace PdfTools
     {
         Bitmap CreateQrCodeFor(string text);
         Bitmap CreateQrCodeFor(Uri uri);
+    }
+
+    public class EmptyQrCodeGenerator : IQrCodeGenerator
+    {
+        public Bitmap CreateQrCodeFor(string text)
+        {
+            return new Bitmap(1, 1);
+        }
+
+        public Bitmap CreateQrCodeFor(Uri uri)
+        {
+            return new Bitmap(1, 1);
+        }
     }
 
     /// <summary>
