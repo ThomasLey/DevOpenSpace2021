@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Windows;
 using FSharp.Markdown;
 using FSharp.Markdown.Pdf;
 using iTextSharp.text.pdf;
@@ -78,12 +79,15 @@ namespace PdfTools
 
     public class PdfArchiver
     {
+        private readonly IQrCodeGenerator _qrCodeGen;
         private readonly string _tempFile;
 
-        public PdfArchiver()
+        public PdfArchiver(IQrCodeGenerator qrCodeGen = null)
         {
+            _qrCodeGen = qrCodeGen ?? new QrCoderCodeGenerator();
             _tempFile = Path.GetTempFileName();
         }
+
         public void Archive(string url)
         {
             var client = new HttpClient();
@@ -97,7 +101,7 @@ namespace PdfTools
             using (Stream inputImageStream = new MemoryStream())
             using (Stream outputPdfStream = new FileStream(_tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                var code = CreateInitCode(url);
+                var code = _qrCodeGen.CreateQrCodeFor(new Uri(url));
                 code.Save(inputImageStream, ImageFormat.Jpeg);
                 inputImageStream.Position = 0;
 
@@ -111,16 +115,7 @@ namespace PdfTools
                 stamper.Close();
             }
         }
-
-        private Bitmap CreateInitCode(string text)
-        {
-            var qrCodeGenerator = new QRCodeGenerator();
-            var qrCodeData = qrCodeGenerator.CreateQrCode(new PayloadGenerator.Url(text), QRCodeGenerator.ECCLevel.Q);
-            var qrCode = new QRCode(qrCodeData);
-
-            return qrCode.GetGraphic(2);
-        }
-
+        
         public void SaveAs(string destFile)
         {
             File.Copy(_tempFile, destFile, true);
@@ -131,11 +126,14 @@ namespace PdfTools
     {
         private readonly string _pdfFile;
         private readonly string _tempFile;
+        private readonly IQrCodeGenerator _qrCoderGen;
 
-        public PdfCodeEnhancer(string pdfFile)
+        public PdfCodeEnhancer(string pdfFile, IQrCodeGenerator qrCodeGen = null)
         {
             _pdfFile = pdfFile;
             _tempFile = Path.GetTempFileName();
+
+            _qrCoderGen = qrCodeGen ?? new QrCoderCodeGenerator();
         }
 
         public void AddTextAsCode(string text)
@@ -144,7 +142,7 @@ namespace PdfTools
             using (Stream inputImageStream = new MemoryStream())
             using (Stream outputPdfStream = new FileStream(_tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                var code = CreateInitCode(text);
+                var code = _qrCoderGen.CreateQrCodeFor(text);
                 code.Save(inputImageStream, ImageFormat.Jpeg);
                 inputImageStream.Position = 0;
 
@@ -158,8 +156,27 @@ namespace PdfTools
                 stamper.Close();
             }
         }
+        
+        public void SaveAs(string destFile)
+        {
+            File.Copy(_tempFile, destFile, true);
+        }
+    }
 
-        private Bitmap CreateInitCode(string text)
+    public interface IQrCodeGenerator
+    {
+        Bitmap CreateQrCodeFor(string text);
+        Bitmap CreateQrCodeFor(Uri uri);
+    }
+
+    /// <summary>
+    /// SRP: I create only QR codes
+    ///
+    /// Issue: 3rd Party library (QRCoder)
+    /// </summary>
+    public class QrCoderCodeGenerator : IQrCodeGenerator
+    {
+        public Bitmap CreateQrCodeFor(string text)
         {
             var qrCodeGenerator = new QRCodeGenerator();
             var qrCodeData = qrCodeGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
@@ -168,9 +185,13 @@ namespace PdfTools
             return qrCode.GetGraphic(2);
         }
 
-        public void SaveAs(string destFile)
+        public Bitmap CreateQrCodeFor(Uri uri)
         {
-            File.Copy(_tempFile, destFile, true);
+            var qrCodeGenerator = new QRCodeGenerator();
+            var qrCodeData = qrCodeGenerator.CreateQrCode(uri.AbsoluteUri, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new QRCode(qrCodeData);
+
+            return qrCode.GetGraphic(2);
         }
     }
 }
