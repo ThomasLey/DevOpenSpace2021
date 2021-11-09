@@ -8,7 +8,7 @@ namespace DiTryouts
     [TestFixture]
     public class SingletonTest
     {
-        public IContainer Create()
+        private IContainer Create()
         {
             return new Container(_ =>
             {
@@ -18,7 +18,7 @@ namespace DiTryouts
             });
         }
 
-        public IContainer Create2_LoggerAsAlwaysNewInstance()
+        private IContainer Create2_LoggerAsAlwaysNewInstance()
         {
             return new Container(_ =>
             {

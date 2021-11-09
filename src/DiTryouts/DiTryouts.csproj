@@ -91,7 +91,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AwesomeLib\AwesomeLib.csproj">
+      <Project>{7617412F-3CDE-49C9-B2E2-7442FCA9D440}</Project>
+      <Name>AwesomeLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

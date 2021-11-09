@@ -16,9 +16,15 @@ namespace DiTryouts
                 //_.For<IBarcodeGenerator>().Use<ZXingGenerator>().Singleton();
                 //_.For<IBarcodeGenerator>().Use<ZXingGenerator>();
                 // use is using an instance, which is basically handled as singleton
-                _.For<Func<IBarcodeGenerator>>().Use<Func<IBarcodeGenerator>>(context => ()=> context.GetInstance<IBarcodeGenerator>());
+                //_.For<Func<IBarcodeGenerator>>().Use<Func<IBarcodeGenerator>>(context => () => context.GetInstance<IBarcodeGenerator>());
+                _.For<Func<IBarcodeGenerator>>().Use<Func<IBarcodeGenerator>>(CreateGenerator);
                 _.For<IMyLogger>().Use<MyConsoleLogger>().Singleton();
             });
+        }
+
+        private IBarcodeGenerator CreateGenerator()
+        {
+            return new QrCoderGenerator(new MyConsoleLogger());
         }
 
         [Test]
@@ -33,6 +39,7 @@ namespace DiTryouts
             var x = c.GetInstance<Lazy<IBarcodeGenerator>>();
             Console.WriteLine($"Done: {x.GetType().Name} => #{x.GetHashCode()}");
             Console.WriteLine($"Done: {x.Value.GetType().Name} => #{x.Value.GetHashCode()}\r\n");
+
 
             var y = c.GetInstance<Func<IBarcodeGenerator>>();
             Console.WriteLine($"Done y: {y.GetType().Name} => #{y.GetHashCode()}\r\n");

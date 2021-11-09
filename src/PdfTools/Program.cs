@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using FSharp.Markdown;
 using FSharp.Markdown.Pdf;
 using iTextSharp.text.pdf;
@@ -32,7 +33,7 @@ namespace PdfTools
             // pdf-in, qrcodetext, optional outfile
             if (string.Equals(action, "addcode", StringComparison.CurrentCultureIgnoreCase))
             {
-                var enhancer = new PdfCodeEnhancer(args[1]);
+                var enhancer = new PdfCodeEnhancer(args[1], new Lazy<IQrCodeGenerator>(() => new QrCoderCodeGenerator()));
 
                 enhancer.AddTextAsCode(args[2]);
 
@@ -76,26 +77,51 @@ namespace PdfTools
         }
     }
 
+    #region HttpWrapper
+
+    public interface IHttpClient
+    {
+        Task<HttpResponseMessage> GetAsync(string url);
+    }
+
+    public class HttpClientWrapper : IHttpClient
+    {
+        private readonly HttpClient _httpClient;
+
+        public HttpClientWrapper()
+        {
+            _httpClient = new HttpClient();
+        }
+
+        public Task<HttpResponseMessage> GetAsync(string url)
+        {
+            return _httpClient.GetAsync(url);
+        }
+    }
+
+    #endregion
+
     public class PdfArchiver
     {
+        private readonly IHttpClient _httpClient;
         private readonly IQrCodeGenerator _qrCodeGen;
         private readonly string _tempFile;
 
-        public PdfArchiver(IQrCodeGenerator qrCodeGen = null)
+        public PdfArchiver(IHttpClient httpClient = null, IQrCodeGenerator qrCodeGen = null)
         {
+            _httpClient = httpClient ?? new HttpClientWrapper();
             _qrCodeGen = qrCodeGen ?? new EmptyQrCodeGenerator();
             _tempFile = Path.GetTempFileName();
         }
 
         public void Archive(string url)
         {
-            var client = new HttpClient();
+            var client = _httpClient;
             var response = client.GetAsync(url).Result;
             var pdf = response.Content.ReadAsByteArrayAsync().Result;
 
             var tmpTempFile = Path.GetTempFileName();
             File.WriteAllBytes(tmpTempFile, pdf);
-
             using (Stream inputPdfStream = new FileStream(tmpTempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (Stream inputImageStream = new MemoryStream())
             using (Stream outputPdfStream = new FileStream(_tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -126,9 +152,9 @@ namespace PdfTools
     {
         private readonly string _pdfFile;
         private readonly string _tempFile;
-        private readonly IQrCodeGenerator _qrCoderGen;
+        private readonly Lazy<IQrCodeGenerator> _qrCoderGen;
 
-        public PdfCodeEnhancer(string pdfFile, IQrCodeGenerator qrCodeGen)
+        public PdfCodeEnhancer(string pdfFile, Lazy<IQrCodeGenerator> qrCodeGen)
         {
             _pdfFile = pdfFile;
             _tempFile = Path.GetTempFileName();
@@ -142,7 +168,7 @@ namespace PdfTools
             using (Stream inputImageStream = new MemoryStream())
             using (Stream outputPdfStream = new FileStream(_tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                var code = _qrCoderGen.CreateQrCodeFor(text);
+                var code = _qrCoderGen.Value.CreateQrCodeFor(text);
                 code.Save(inputImageStream, ImageFormat.Jpeg);
                 inputImageStream.Position = 0;
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfTools", "PdfTools\PdfToo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiTryouts", "DiTryouts\DiTryouts.csproj", "{2504564F-34D0-4B4E-A6D8-423E02239605}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeLib", "AwesomeLib\AwesomeLib.csproj", "{7617412F-3CDE-49C9-B2E2-7442FCA9D440}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2504564F-34D0-4B4E-A6D8-423E02239605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2504564F-34D0-4B4E-A6D8-423E02239605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2504564F-34D0-4B4E-A6D8-423E02239605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7617412F-3CDE-49C9-B2E2-7442FCA9D440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7617412F-3CDE-49C9-B2E2-7442FCA9D440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7617412F-3CDE-49C9-B2E2-7442FCA9D440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7617412F-3CDE-49C9-B2E2-7442FCA9D440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
